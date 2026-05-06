@@ -1,0 +1,21 @@
+```text
+# Archivos de compilación de Maven
+target/
+*.jar
+*.war
+
+# Configuraciones de IDEs (IntelliJ, Eclipse, VS Code)
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Variables de entorno (¡NUNCA subas tus contraseñas reales!)
+*.env
+application-prod.yml
