@@ -1,0 +1,50 @@
+#!/bin/bash
+echo "========================================================"
+echo "   Descargando Ecosistema de Microservicios (Linux)..."
+echo "========================================================"
+
+echo ""
+echo "Clonando ms-usuarios (ID 1)..."
+git clone https://github.com/Tom-P22/AACM-MS-Usuarios.git
+
+echo ""
+echo "Clonando ms-auth (ID 2)..."
+git clone https://github.com/Tom-P22/AACM-MS-Auth.git
+
+echo ""
+echo "Clonando ms-canchas (ID 3)..."
+git clone https://github.com/Tom-P22/AACM-MS-Canchas.git
+
+echo ""
+echo "Clonando ms-reservas (ID 4)..."
+git clone https://github.com/Tom-P22/AACM-MS-Reservas.git
+
+echo ""
+echo "Clonando ms-soporte (ID 5)..."
+git clone https://github.com/chelo-salt/0.9-MS-SOPORTE.git
+
+echo ""
+echo "Clonando ms-reportes (ID 6)..."
+git clone https://github.com/chelo-salt/0.8-MS-REPORTES.git
+
+echo ""
+echo "Clonando ms-inventario (ID 7)..."
+git clone https://github.com/chelo-salt/ms-inventario.git
+
+echo ""
+echo "Clonando ms-pagos (ID 8)..."
+git clone https://github.com/chelo-salt/0.2-ms-pagos.git
+
+echo ""
+echo "Clonando ms-reseñas (ID 9)..."
+git clone https://github.com/Tom-P22/AACM-MS-Resenas.git
+
+echo ""
+echo "Clonando ms-restricciones (ID 10)..."
+git clone https://github.com/chelo-salt/0.7-MS-RESTRICCIONES.git
+
+echo ""
+echo "========================================================"
+echo "   ¡Descarga completada! Todos los servicios estan listos."
+echo "========================================================"
+read -p "Presiona [Enter] para salir..."
