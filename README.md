@@ -47,7 +47,7 @@ Este sistema permite a los ciudadanos reservar canchas deportivas, realizar pago
 
 | ID | Microservicio | Descripción y Responsabilidad | API | BD | phpMyAdmin | Estado |
 |:--:|:---|:---|:---:|:---:|:---:|:---:|
-| **0** | `MS-plantilla` | **Esqueleto base con arquitectura CSR preconfigurada.** | `:8091` | `:3321` | `:9021` | 🟢 Activo |
+| **0** | `MS-Gateway` | **Puerta de entrada única y perímetro de seguridad del ecosistema.** | `:8080` | `:` | `:` | 🟢 Activo |
 | **1** | `MS-usuarios` | CRUD de usuarios, validación de RUT y formatos de email. | `:8081` | `:3311` | `:9011` | 🟢 Activo |
 | **2** | `MS-auth` | Verificación de usuarios, contraseñas y validez de tokens JWT. | `:8082` | `:3312` | `:9012` | 🟢 Activo |
 | **3** | `MS-canchas` | Info de canchas y validación de nombres y capacidades. | `:8083` | `:3313` | `:9013` | 🟢 Activo  |
