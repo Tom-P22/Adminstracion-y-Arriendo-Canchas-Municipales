@@ -4,6 +4,10 @@ echo   Descargando Ecosistema de Microservicios...
 echo ========================================================
 
 echo.
+echo Clonando ms-usuarios (ID 0)...
+git clone https://github.com/Tom-P22/AACM-Gateway.git
+
+echo.
 echo Clonando ms-usuarios (ID 1)...
 git clone https://github.com/Tom-P22/AACM-MS-Usuarios.git
 
