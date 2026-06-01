@@ -48,16 +48,16 @@ Este sistema permite a los ciudadanos reservar canchas deportivas, realizar pago
 | ID | Microservicio | Descripción y Responsabilidad | API | BD | phpMyAdmin | Estado |
 |:--:|:---|:---|:---:|:---:|:---:|:---:|
 | **0** | `MS-plantilla` | **Esqueleto base con arquitectura CSR preconfigurada.** | `:8091` | `:3321` | `:9021` | 🟢 Activo |
-| **1** | `MS-usuarios` | CRUD de usuarios, validación de RUT y formatos de email. | `:8081` | `:3311` | `:9011` | 🟠 En Dev (Estapa Final) |
-| **2** | `MS-auth` | Verificación de usuarios, contraseñas y validez de tokens JWT. | `:8082` | `:3312` | `:9012` | 🟠 En Dev (Estapa Final) |
-| **3** | `MS-canchas` | Info de canchas y validación de nombres y capacidades. | `:8083` | `:3313` | `:9013` | 🟡 En Dev  |
-| **4** | `MS-reservas` | Disponibilidad, reservas de usuarios y bloqueos por mantenimiento. | `:8084` | `:3314` | `:9014` | 🟡 En Dev  |
-| **5** | `MS-torneos` | Organización de campeonatos y asignación de horarios. | `:8085` | `:3315` | `:9015` | ⚪ Pendiente |
-| **6** | `MS-reportes` | Estadísticas de uso de equipo, canchas, arriendos y usuarios. | `:8086` | `:3316` | `:9016` | ⚪ Pendiente |
-| **7** | `MS-inventario` | CRUD de equipamiento y control de stock municipal. | `:8087` | `:3317` | `:9017` | ⚪ Pendiente |
-| **8** | `MS-pagos` | Transacciones, comprobantes y link a reserva (Pendiente/Pagado/Rechazado). | `:8088` | `:3318` | `:9018` | 🟡 En Dev |
-| **9** | `MS-reseñas` | Sistema de puntajes (1 a 5 estrellas) y comentarios. | `:8089` | `:3319` | `:9019` | ⚪ Pendiente |
-| **10** | `MS-sanciones` | Registro de infracciones y aviso a usuarios para bloqueo de cuentas. | `:8090` | `:3320` | `:9020` | ⚪ Pendiente |
+| **1** | `MS-usuarios` | CRUD de usuarios, validación de RUT y formatos de email. | `:8081` | `:3311` | `:9011` | 🟢 Activo |
+| **2** | `MS-auth` | Verificación de usuarios, contraseñas y validez de tokens JWT. | `:8082` | `:3312` | `:9012` | 🟢 Activo |
+| **3** | `MS-canchas` | Info de canchas y validación de nombres y capacidades. | `:8083` | `:3313` | `:9013` | 🟢 Activo  |
+| **4** | `MS-reservas` | Disponibilidad, reservas de usuarios y bloqueos por mantenimiento. | `:8084` | `:3314` | `:9014` | 🟢 Activo  |
+| **5** | `MS-soporte` | Creacion y resolucion de tickets de soporte. | `:8085` | `:3315` | `:9015` | 🟢 Activo |
+| **6** | `MS-reportes` | Estadísticas de uso de equipo, canchas, arriendos y usuarios. | `:8086` | `:3316` | `:9016` | 🟢 Activo |
+| **7** | `MS-inventario` | CRUD de equipamiento y control de stock municipal. | `:8087` | `:3317` | `:9017` | 🟢 Activo |
+| **8** | `MS-pagos` | Transacciones, comprobantes y link a reserva (Pendiente/Pagado/Rechazado). | `:8088` | `:3318` | `:9018` | 🟢 Activo |
+| **9** | `MS-reseñas` | Sistema de puntajes (1 a 5 estrellas) y comentarios. | `:8089` | `:3319` | `:9019` | 🟡 En Dev |
+| **10** | `MS-restricciones` | Motor perimetral de reglas de negocio para control de bloqueos de usuarios y asignación de incentivos financieros . | `:8090` | `:3320` | `:9020` | 🟢 Activo |
 ---
 
 ## 💻 Cómo descargar todos los microservicios
