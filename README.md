@@ -8,6 +8,14 @@
 Bienvenido al repositorio central (master) del sistema de **Administracion y Arriendo de Canchas Municipales**. Este proyecto está construido utilizando una arquitectura de microservicios moderna, escalable y efímera, diseñada para separar las responsabilidades del negocio.
 
 ---
+
+## 👥 Integrantes del Proyecto
+
+Mesa técnica encargada del diseño arquitectónico, desarrollo back-end e integración del sistema de gestión municipal:
+
+* **[Tomas Peña]** - *Desarrollador*
+* **[Marcelo Salas]** - *Desarrollador*
+
 ## 📌 Tabla de Contenidos
 
 1. [Descripción del Proyecto](#-descripción-del-proyecto)
@@ -59,6 +67,28 @@ Este sistema permite a los ciudadanos reservar canchas deportivas, realizar pago
 | **9** | `MS-reseñas` | Sistema de puntajes (1 a 5 estrellas) y comentarios. | `:8089` | `:3319` | `:9019` | 🟡 En Dev |
 | **10** | `MS-restricciones` | Motor perimetral de reglas de negocio para control de bloqueos de usuarios y asignación de incentivos financieros . | `:8090` | `:3320` | `:9020` | 🟢 Activo |
 ---
+
+## 📋 Documentación de APIs (Swagger UI)
+
+Para interactuar con los endpoints, validar las estructuras de datos (DTOs) y realizar pruebas de integración en tiempo real (*Try it out*), asegúrate de tener levantados los contenedores o servicios locales correspondientes e ingresa a las siguientes direcciones:
+
+| ID | Microservicio | Puerto Local | Enlace Directo a Swagger UI |
+| :---: | :--- | :---: | :--- |
+| **0** | `MS-Gateway` | `8080` | *N/A (Punto de ruteo y perímetro de seguridad)* |
+| **1** | `MS-usuarios` | `8081` | [Ver Swagger UI](http://localhost:8081/swagger-ui/index.html) |
+| **2** | `MS-auth` | `8082` | [Ver Swagger UI](http://localhost:8082/swagger-ui/index.html) |
+| **3** | `MS-canchas` | `8083` | [Ver Swagger UI](http://localhost:8083/swagger-ui/index.html) |
+| **4** | `MS-reservas` | `8084` | [Ver Swagger UI](http://localhost:8084/swagger-ui/index.html) |
+| **5** | `MS-soporte` | `8085` | [Ver Swagger UI](http://localhost:8085/api/v1/soporte/doc/swagger-ui.html) |
+| **6** | `MS-reportes` | `8086` | [Ver Swagger UI](http://localhost:8086/swagger-ui/index.html) |
+| **7** | `MS-inventario` | `8087` | [Ver Swagger UI](http://localhost:8087/swagger-ui/index.html) |
+| **8** | `MS-pagos` | `8088` | [Ver Swagger UI](http://localhost:8088/swagger-ui/index.html) |
+| **9** | `MS-reseñas` | `8089` | [Ver Swagger UI](http://localhost:8089/swagger-ui/index.html) |
+| **10**| `MS-restricciones`| `8090`| [Ver Swagger UI](http://localhost:8090/swagger-ui/index.html) |
+
+---
+
+
 
 ## 💻 Cómo descargar todos los microservicios
 Debido a la cantidad de microservicios, se han implementado scripts automatizados que clonaran todo el ecosistema en tu maquina local.
