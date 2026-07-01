@@ -33,23 +33,30 @@ Este sistema permite a los ciudadanos reservar canchas deportivas, realizar pago
 ## 🛠️ Tecnologías Principales
 
 - **Lenguaje:** Java 21
-- **Framework:** Spring Boot 4.0.6
+- **Framework Principal:** Spring Boot 4.0.6
+- **Ecosistema Cloud & Arquitectura:** Spring Cloud Gateway (API Gateway centralizado) y Service Discovery (Netflix Eureka)
+- **Comunicación Inter-servicio:** WebClient / Feign Client (Manejo distribuido de solicitudes)
+- **Documentación Técnica:** Swagger / OpenAPI UI (`springdoc-openapi`)
+- **Pruebas Unitarias:** JUnit 5 + Mockito (Estructura organizativa Given-When-Then)
 - **Persistencia:** Spring Data JPA / Hibernate
-- **Base de Datos:** MySQL 8.0 (Dockerizada)
-- **Seguridad:** Spring Security + JWT
-- **Herramientas:** Maven, Docker, Docker Compose, Lombok
+- **Base de Datos:** MySQL 8.0 (Dockerizada con scripts `init.sql` automatizados)
+- **Seguridad:** Spring Security + Control de acceso mediante tokens JWT
+- **Herramientas & DevOps:** Maven, Docker, Docker Compose, Git/GitHub, Lombok
 
 ---
 ## 📖 Sobre la Arquitectura
 
-* **Arquitectura CSR:** Separación limpia de responsabilidades en capas lógicas de `Controller`, `Service` y `Repository`.
-* **Manejo de Datos:** Uso riguroso de `DTO Requests` y `DTO Responses`.
-* **Entornos Efímeros:** Bases de datos aisladas y dockerizadas (`MySQL`) con acceso administrativo vía `phpMyAdmin` por cada microservicio.
-* **Manejo de Errores:** Implementación de Excepciones Globales personalizadas en su propio package.
-* **Seguridad y JWT:** Seguridad básica stateless validando validez de tokens y contraseñas.
-* **Comunicación Interna:** Llamadas síncronas entre microservicios utilizando `WebClient / RestClient`.
-* **Perfiles de Configuración:** Soporte nativo para entornos de `Dev`, `Test` y `Prod`.
+El ecosistema está diseñado bajo un enfoque de **Arquitectura de Microservicios Distribuida y Desacoplada**, garantizando escalabilidad, tolerancia a fallos y una estricta separación de responsabilidades funcionales. Los pilares arquitectónicos implementados son:
 
+* **Patrón CSR Estricto:** Organización limpia del código fuente por paquetes aislados: `Controller` (orquestación exclusiva de peticiones y respuestas), `Service` (concentración absoluta de las reglas de negocio y validaciones del dominio) y `Repository/Model` (gestión dedicada de la capa de datos).
+* **API Gateway Centralizado:** Uso de *Spring Cloud Gateway* como punto único de entrada del sistema (Puerto 8080), administrando de forma consistente el enrutamiento, prefijos de rutas, predicados y filtros de flujo de solicitudes hacia los servicios internos.
+* **Service Discovery (Eureka):** Integración con un servidor de descubrimiento *Netflix Eureka*, permitiendo que los microservicios se registren de forma dinámica y localicen otros servicios sin necesidad de hardcodear direcciones IP o puertos en el entorno distribuido.
+* **Interoperabilidad y Consumo REST:** Comunicación síncrona inter-servicio implementada eficientemente mediante `WebClient / Feign Client`, garantizando consistencia de datos, control de timeouts y mapeo riguroso de objetos a través de `DTO Requests` y `DTO Responses`.
+* **Persistencia Aislada y Automatizada:** Bases de datos relacionales individuales (`MySQL 8.0`) por cada microservicio para asegurar el desacoplamiento total de datos. Los entornos se levantan de forma efímera en contenedores Docker y se estructuran automáticamente mediante scripts de inicialización (`init.sql`)[cite: 1].
+* **Configuración Centralizada por Perfiles (YAML):** Organización de propiedades de entorno mediante archivos `.yml` o `.yaml`, aislando limpiamente parámetros sensibles, puertos y variables según el perfil de ejecución activo (`dev`, `test`, `prod`).
+* **Manejo Global de Errores:** Implementación de un package centralizado de excepciones personalizadas utilizando `@ControllerAdvice`, garantizando el tratamiento adecuado de errores remotos y la devolución de códigos de respuesta HTTP semánticos y estandarizados.
+* **Seguridad Perimetral y JWT:** Capa de seguridad stateless implementada con *Spring Security* y tokens *JSON Web Tokens (JWT)*, encargada de la validación de credenciales y la protección de endpoints críticos del negocio.
+* **Calidad de Código y Cobertura:** Validación rigurosa de las reglas de negocio mediante una suite de pruebas unitarias (`JUnit 5` + `Mockito`) organizada bajo la estructura *Given-When-Then*, alcanzando y superando el **80% de cobertura de código (Code Coverage)** obligatorio.
 ---
 ## 📦 Microservicios
 
@@ -94,22 +101,21 @@ Para interactuar con los endpoints, validar las estructuras de datos (DTOs) y re
 Debido a la cantidad de microservicios, se han implementado scripts automatizados que clonaran todo el ecosistema en tu maquina local.
 
 ### 🟦 Usuarios de Windows
+1. Descarga los archivos `Win-ALLMS.bat`, `init.sql` y `compose.yaml`
 
-1. Descarga el archivo `Win-ALLMS.bat`
-   
-3. Colócalo en la carpeta donde deseas alojar el proyecto.
+2. Colócalos en la carpeta donde deseas alojar el proyecto.
    > 💡 *Ejemplo: `C:\Proyectos\Sistema123\`*
    
-4. Haz **doble clic** sobre el archivo para ejecutarlo.
+3. Haz **doble clic** sobre el `Win-ALLMS.bat` para ejecutarlo.
    - *Se abrira una consola la cual descargara todos los repositorios automaticamente.*
    
-5. Disfrutar.
+4. Disfrutar.
 
 ---
 
 ### 🐧/🍎 Usuarios de Linux/Mac
 
-1. Descarga el archivo `LiMac-ALLMS.sh` en tu carpeta de trabajo.
+1. Descarga el archivo `LiMac-ALLMS.sh`, `init.sql` y `compose.yaml` en tu carpeta de trabajo.
 
 2. Abre tu terminal en esa ruta y otórgale permisos de ejecución al script:
     ```bash
@@ -135,13 +141,13 @@ Antes de empezar, asegúrate de tener lo siguiente en tu máquina:
   
 ### 🚀 Pasos para la ejecución
 1. **Clona el repositorio** (puedes usar los scripts automatizados de la sección anterior).
-2. **Abre la carpeta** del microservicio específico que deseas correr (por ejemplo, `MS-usuarios`) en tu IDE.
-3. **Verifica Docker:** Asegúrate de que el motor de Docker esté encendido (revisa que el icono de la ballenita esté activo en tu barra de tareas).
-4. **Ejecuta la aplicación:** Busca la clase principal del proyecto (ej. `UsuariosApplication.java`) y dale al botón de *Run* / *Play*.
+3. **Abre la carpeta** del microservicio específico que deseas correr (por ejemplo, `MS-usuarios`) en tu IDE.
+4. **Verifica Docker:** Asegúrate de que el motor de Docker esté encendido (revisa que el icono de la ballenita esté activo en tu barra de tareas).
+5. **Levanta la arquitecura global:** Abre una terminal integrada en la raíz del proyecto (donde se encuentra el archivo `docker-compose.yml`) y ejecuta el siguiente comando: `docker compose up --build`, esto levantara los contenedores de docker de cada microservicio.
 
 ### ✅ Verificación
 Para comprobar que todo se levantó correctamente:
 * Revisa la consola de tu IDE; no deberían aparecer errores en rojo y deberías ver el tiempo de inicio de la aplicación.
-* Entra a Docker Desktop y ve al apartado de contenedores, se deberia de haber creado el contenedor correspondiente para el microservicio y deberia estar ejecutandose.
-* Abre tu navegador y dirígete a `http://localhost:90XX` (reemplaza las `XX` según el ID del microservicio en nuestra Matriz de Arquitectura) para ver tu base de datos en phpMyAdmin utilizando las credenciales por defecto (`user: root` / `pass: root`).
-* Al detener la aplicación en tu IDE, Spring apagará y destruirá los contenedores de Docker automáticamente, liberando la memoria de tu computadora.
+* Entra a Docker Desktop y ve al apartado de contenedores, se deberian de haber creado los contenedores correspondientes para los microservicios y deberia estar ejecutandose.
+* Abre tu navegador y dirígete a `http://localhost:90XX` (reemplaza las `XX` según el ID del microservicio en nuestra Matriz de Arquitectura) para verificar que las tablas iniciales se crearon correctamente usando las credenciales por defecto (`user: root` / `pass: root`).
+* Para detener todo el ecosistema de microservicios y liberar la memoria RAM de tu computadora de forma segura, presiona `Ctrl + C` en la terminal o ejecuta en la raíz el comando: `docker compose down`.
