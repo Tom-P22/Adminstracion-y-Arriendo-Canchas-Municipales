@@ -1,0 +1,257 @@
+# Archivo levantador de contenedores docker para
+# Sistema de Administracion y Arriendo de Canchas Municipales
+
+services: 
+# -------------------------------------------------------------
+# INFRAESTRUCTURA DE BASE DE DATOS CENTRALIZADA
+# -------------------------------------------------------------
+  mysql:
+    image: 'mysql:latest'
+    container_name: 'AACM_bd'
+    environment:
+      MYSQL_DATABASE: mysql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user_dev
+
+    ports:
+      - '3311:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -u root -proot -e 'SELECT 1;' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: AACM_gui
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - '9013:80'
+
+# -------------------------------------------------------------
+# COMPONENTES DE INFRAESTRUCTURA DE MICROSERVICIOS
+# -------------------------------------------------------------
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+    container_name: 'eureka-server'
+    ports:
+    - '8761:8761'
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  gateway:
+    build:
+      context: ./gateway 
+    container_name: 'ms-gateway'
+    ports:
+      - '8080:8080'
+    environment:
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+
+
+# -------------------------------------------------------------
+# MICROSERVICIOS DE NEGOCIO
+# -------------------------------------------------------------
+
+  ms-usuarios:
+    build:
+      context: ./usuarios
+    container_name: 'ms-usuarios'
+    restart: on-failure
+    ports:
+    - '8081:8081'
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/bd_usuarios
+      DB_USER: root
+      DB_PASSWORD: root
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  ms-auth:
+    build:
+      context: ./AACM-MS-Auth-dev
+    container_name: 'ms-auth'
+    restart: on-failure
+    ports:
+    - '8082:8082'
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_auth
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  ms-canchas:
+    build:
+      context: ./canchas                
+    container_name: 'ms-canchas'   
+    restart: on-failure   
+    ports:
+      - '8083:8083'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_canchas 
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+  
+  ms-reservas:
+    build:
+      context: ./reservas                
+    container_name: 'ms-reservas' 
+    restart: on-failure     
+    ports:
+      - '8084:8084'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_reservas 
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  ms-soporte:
+    build:
+      context: ./ms-soporte/0.9-MS-SOPORTE                
+    container_name: 'ms-soporte'      
+    restart: on-failure
+    ports:
+      - '8085:8085'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_soporte
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  ms-reportes:
+    build:
+      context: ./0.8-MS-REPORTES-main                
+    container_name: 'ms-reportes' 
+    restart: on-failure     
+    ports:
+      - '8086:8086'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_reportes 
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  ms-inventario:
+    build:
+      context: ./ms-inventario                
+    container_name: 'ms-inventario'  
+    restart: on-failure    
+    ports:
+      - '8087:8087'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_inventario 
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  ms-pagos:
+    build:
+      context: ./0.2-ms-pagos-main                
+    container_name: 'ms-pagos'     
+    restart: on-failure 
+    ports:
+      - '8088:8088'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_pagos 
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+  # ms-resenas:
+  #   build:
+  #     context: ./ms-resenas                
+  #   container_name: 'ms-reseñas'   
+  #   restart: on-failure   
+  #   ports:
+  #     - '8089:8089'             
+  #   environment:
+  #     - DB_URL=jdbc:mysql://mysql:3306/bd_resenas 
+  #     - DB_USER=root
+  #     - DB_PASSWORD=root
+  #     - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     eureka-server:
+  #       condition: service_healthy
+
+  ms-restricciones:
+    build:
+      context: ./ms-restricciones/0.7-MS-RESTRICCIONES                
+    container_name: 'ms-restricciones'      
+    restart: on-failure
+    ports:
+      - '8090:8090'             
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/bd_restricciones 
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
