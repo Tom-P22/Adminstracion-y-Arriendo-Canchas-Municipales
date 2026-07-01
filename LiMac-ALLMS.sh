@@ -29,7 +29,7 @@ git clone https://github.com/chelo-salt/0.9-MS-SOPORTE.git
 
 echo ""
 echo "Clonando ms-reportes (ID 6)..."
-git clone https://github.com/chelo-salt/0.8-MS-REPORTES.git
+git clone https://github.com/Tom-P22/AACM-Reportes-Temp.git
 
 echo ""
 echo "Clonando ms-inventario (ID 7)..."
