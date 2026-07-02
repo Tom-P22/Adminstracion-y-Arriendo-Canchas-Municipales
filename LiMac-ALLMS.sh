@@ -1,11 +1,15 @@
 #!/bin/bash
 echo "========================================================"
-echo "   Descargando Ecosistema de Microservicios (Linux)..."
+echo "   Descargando Ecosistema de Microservicios (Linux/Mac)..."
 echo "========================================================"
 
 echo ""
-echo "Clonando ms-usuarios (ID 0)..."
+echo "Clonando ms-gateway (ID 0)..."
 git clone https://github.com/Tom-P22/AACM-Gateway.git
+
+echo ""
+echo "Clonando eureka-server (ID 0.1)..."
+git clone -b dev https://github.com/Tom-P22/AACM-Eureka-Server.git
 
 echo ""
 echo "Clonando ms-usuarios (ID 1)..."
@@ -13,7 +17,7 @@ git clone https://github.com/Tom-P22/AACM-MS-Usuarios.git
 
 echo ""
 echo "Clonando ms-auth (ID 2)..."
-git clone https://github.com/Tom-P22/AACM-MS-Auth.git
+git clone -b dev https://github.com/Tom-P22/AACM-MS-Auth.git
 
 echo ""
 echo "Clonando ms-canchas (ID 3)..."
