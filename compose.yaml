@@ -44,7 +44,7 @@ services:
 
   eureka-server:
     build:
-      context: ./eureka-server
+      context: ./AACM-Eureka-Server
     container_name: 'eureka-server'
     ports:
     - '8761:8761'
@@ -57,7 +57,7 @@ services:
 
   gateway:
     build:
-      context: ./gateway 
+      context: ./AACM-Gateway 
     container_name: 'ms-gateway'
     ports:
       - '8080:8080'
@@ -74,7 +74,7 @@ services:
 
   ms-usuarios:
     build:
-      context: ./usuarios
+      context: ./AACM-MS-Usuarios
     container_name: 'ms-usuarios'
     restart: on-failure
     ports:
@@ -93,7 +93,7 @@ services:
 
   ms-auth:
     build:
-      context: ./AACM-MS-Auth-dev
+      context: ./AACM-MS-Auth
     container_name: 'ms-auth'
     restart: on-failure
     ports:
@@ -111,7 +111,7 @@ services:
 
   ms-canchas:
     build:
-      context: ./canchas                
+      context: ./AACM-MS-Canchas                
     container_name: 'ms-canchas'   
     restart: on-failure   
     ports:
@@ -129,7 +129,7 @@ services:
   
   ms-reservas:
     build:
-      context: ./reservas                
+      context: ./AACM-MS-Reservas                
     container_name: 'ms-reservas' 
     restart: on-failure     
     ports:
@@ -147,7 +147,7 @@ services:
 
   ms-soporte:
     build:
-      context: ./ms-soporte/0.9-MS-SOPORTE                
+      context: ./0.9-MS-SOPORTE                
     container_name: 'ms-soporte'      
     restart: on-failure
     ports:
@@ -165,7 +165,7 @@ services:
 
   ms-reportes:
     build:
-      context: ./0.8-MS-REPORTES-main                
+      context: ./AACM-Reportes-Temp                
     container_name: 'ms-reportes' 
     restart: on-failure     
     ports:
@@ -201,7 +201,7 @@ services:
 
   ms-pagos:
     build:
-      context: ./0.2-ms-pagos-main                
+      context: ./0.2-ms-pagos                
     container_name: 'ms-pagos'     
     restart: on-failure 
     ports:
@@ -217,9 +217,9 @@ services:
       eureka-server:
         condition: service_healthy
 
-  # ms-resenas:
+  #ms-resenas:
   #   build:
-  #     context: ./ms-resenas                
+  #     context: ./AACM-MS-Resenas              
   #   container_name: 'ms-reseñas'   
   #   restart: on-failure   
   #   ports:
@@ -237,7 +237,7 @@ services:
 
   ms-restricciones:
     build:
-      context: ./ms-restricciones/0.7-MS-RESTRICCIONES                
+      context: ./0.7-MS-RESTRICCIONES                
     container_name: 'ms-restricciones'      
     restart: on-failure
     ports:
